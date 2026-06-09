@@ -16,6 +16,7 @@
 
             <div class="status-box" [class.success]="puzzleStatus === 'correct'"
                 [class.error]="puzzleStatus === 'wrong'">
+
                 @if (puzzleStatus === 'waiting') {
                 <p class="status-text">Yurish kutilmoqda. To'g'ri yo'lni toping...</p>
                 } @else if (puzzleStatus === 'correct') {
@@ -23,6 +24,7 @@
                 } @else {
                 <p class="status-text">❌ Xato yurish. Qaytadan urinib ko'ring.</p>
                 }
+
             </div>
 
             <div class="puzzle-actions">

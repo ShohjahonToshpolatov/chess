@@ -15,6 +15,9 @@ interface ChessSquare {
   styleUrl: './chessboard.component.scss'
 })
 export class ChessboardComponent implements OnInit {
+  makeMove(from: any, to: any) {
+    throw new Error('Method not implemented.');
+  }
   private chess = new Chess();
 
   files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];

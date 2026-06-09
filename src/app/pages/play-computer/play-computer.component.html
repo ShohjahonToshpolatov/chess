@@ -1,14 +1,119 @@
 <div class="play-page-container">
+
     <div class="chess-arena">
-        <app-captured-pieces [isWhiteSide]="false"></app-captured-pieces>
 
-        <app-chessboard #boardRef (moveMade)="onMoveMade($event)"></app-chessboard>
+        <div class="player-info-card bot-card" [class.thinking]="isBotThinking">
+            <div class="player-meta">
+                <span class="status-dot"></span>
+                <span class="player-name">Stockfish AI Bot</span>
+                <span class="elo-badge">{{ botDifficulty }} ELO</span>
+            </div>
+            <div class="game-timer">
+                {{ isBotThinking ? '🤔 Fikr qilmoqda...' : '05:00' }}
+            </div>
+        </div>
 
-        <app-captured-pieces [isWhiteSide]="true"></app-captured-pieces>
+        <div class="board-wrapper">
+            <app-chessboard #chessBoard></app-chessboard>
+        </div>
+
+        <div class="player-info-card user-card">
+            <div class="player-meta">
+                <span class="status-dot active"></span>
+                <span class="player-name">Player (Siz)</span>
+            </div>
+            <div class="game-timer user-time">05:00</div>
+        </div>
+
     </div>
 
-    <div class="control-panel">
-        <app-game-sidebar [rawHistory]="gameHistory" (restartGame)="boardRef.resetGame(); gameHistory = []"
-            (eloChanged)="onEloSelected($event)"></app-game-sidebar>
+    <div class="sidebar-arena">
+        <div class="game-sidebar">
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">🤖 STOCKFISH DIFFICULTY (ELO)</div>
+                <div class="difficulty-grid">
+                    <button class="level-btn" [class.active]="botDifficulty === 800" (click)="onDifficultyChange(800)">
+                        <span class="level-name">YANGI BOSLOVCHI</span>
+                        <span class="elo-tag">800</span>
+                    </button>
+                    <button class="level-btn" [class.active]="botDifficulty === 1200"
+                        (click)="onDifficultyChange(1200)">
+                        <span class="level-name">O'RTACHA</span>
+                        <span class="elo-tag">1200</span>
+                    </button>
+                    <button class="level-btn" [class.active]="botDifficulty === 1600"
+                        (click)="onDifficultyChange(1600)">
+                        <span class="level-name">USTA</span>
+                        <span class="elo-tag">1600</span>
+                    </button>
+                    <button class="level-btn" [class.active]="botDifficulty === 2200"
+                        (click)="onDifficultyChange(2200)">
+                        <span class="level-name">GROSSMEYSTER</span>
+                        <span class="elo-tag">2200</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="history-section">
+                <div class="sidebar-section-title">📋 LIVE MOVE HISTORY</div>
+                <div class="moves-container">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>White</th>
+                                <th>Black</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (move of moveHistoryList; track move.num) {
+                            <tr>
+                                <td class="move-num">{{ move.num }}.</td>
+                                <td class="move-notation">{{ move.white }}</td>
+                                <td class="move-notation font-black">{{ move.black }}</td>
+                            </tr>
+                            } @empty {
+                            <tr>
+                                <td colspan="3" class="no-moves">O'yin boshlanishi kutilmoqda...</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="actions-section">
+                <button class="btn-resign" (click)="resignGame()" [disabled]="isGameOver">
+                    🏳️ Resign (Taslim bo'lish)
+                </button>
+                <div class="secondary-actions">
+                    <button class="btn-sub" (click)="checkGameStatus()">🤝 Draw</button>
+                    <button class="btn-sub" (click)="restartGame()">🔄 Restart</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@if (isGameOver) {
+<div class="game-over-overlay">
+    <div class="game-over-modal" [ngClass]="gameResultClass">
+        <div class="modal-icon">
+            @if (gameResultClass === 'victory') { 🏆 }
+            @else if (gameResultClass === 'defeat') { 💀 }
+            @else { 🤝 }
+        </div>
+        <h2>{{ gameResultTitle }}</h2>
+        <p>{{ gameResultMessage }}</p>
+
+        <div class="modal-actions">
+            <button class="btn-restart-match" (click)="restartGame()">
+                🔄 Yangi O'yin Boshlash
+            </button>
+        </div>
     </div>
 </div>
+}
