@@ -1,0 +1,138 @@
+@import '../../../../styles.scss';
+
+.navbar {
+    background-color: $bg-card;
+    border-bottom: 1px solid rgba($neon-blue, 0.15);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    padding: 0 2rem;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    .nav-container {
+        width: 100%;
+        max-width: 1440px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 1.3rem;
+        font-weight: 900;
+        letter-spacing: 1.5px;
+        cursor: pointer;
+        user-select: none;
+
+        .logo-icon {
+            font-size: 1.8rem;
+            color: $neon-blue;
+            text-shadow: 0 0 10px $neon-blue-glow;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .blue-text {
+            color: $neon-blue;
+            text-shadow: 0 0 8px rgba($neon-blue, 0.3);
+        }
+    }
+
+    .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2.5rem;
+
+        a {
+            color: $text-muted;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0.5rem 0;
+            position: relative;
+
+            &:hover {
+                color: $text-light;
+            }
+
+            &.active {
+                color: $neon-blue;
+                text-shadow: 0 0 10px $neon-blue-glow;
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -22px; // Navbarni ostidagi chiziq bilan tenglashtirish
+                    left: 0;
+                    width: 100%;
+                    height: 3px;
+                    background-color: $neon-blue;
+                    box-shadow: 0 0 10px $neon-blue;
+                    border-radius: 3px 3px 0 0;
+                }
+            }
+        }
+    }
+
+    .nav-profile {
+        display: flex;
+        align-items: center;
+        gap: 1.8rem;
+
+        .notification-icon {
+            font-size: 1.2rem;
+            cursor: pointer;
+            position: relative;
+            color: $text-muted;
+            transition: color 0.3s;
+
+            &:hover {
+                color: $neon-blue;
+            }
+
+            .badge {
+                position: absolute;
+                top: -2px;
+                right: -2px;
+                width: 8px;
+                height: 8px;
+                background-color: $neon-red;
+                border-radius: 50%;
+                box-shadow: 0 0 6px $neon-red;
+            }
+        }
+
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px; // Zamonaviy rounded-rect burchak
+            border: 1.5px solid rgba($neon-blue, 0.4);
+            padding: 2px;
+            background: rgba($bg-dark, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+                border-color: $neon-blue;
+                transform: scale(1.05);
+                box-shadow: 0 0 10px $neon-blue-glow;
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                border-radius: 8px;
+                object-fit: cover;
+            }
+        }
+    }
+}   

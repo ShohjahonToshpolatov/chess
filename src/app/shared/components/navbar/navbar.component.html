@@ -1,0 +1,33 @@
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo" routerLink="/">
+            <span class="logo-icon">♞</span>
+            <span class="logo-text">NEXTGEN <span class="blue-text">CHESS</span></span>
+        </div>
+
+        <ul class="nav-links">
+            <li>
+                <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+            </li>
+            <li>
+                <a routerLink="/play" routerLinkActive="active">Play vs Bot</a>
+            </li>
+            <li>
+                <a routerLink="/puzzles" routerLinkActive="active">Puzzles</a>
+            </li>
+            <li>
+                <a routerLink="/analyze" routerLinkActive="active">Analyze</a>
+            </li>
+        </ul>
+
+        <div class="nav-profile">
+            <div class="notification-icon">
+                <span>🔔</span>
+                <span class="badge"></span>
+            </div>
+            <div class="user-avatar">
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=shoh" alt="User Avatar">
+            </div>
+        </div>
+    </div>
+</nav>

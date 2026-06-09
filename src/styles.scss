@@ -1,1 +1,77 @@
-/* You can add global styles to this file, and also import other style files */
+// 1. Global Neon-Dark O'zgaruvchilar
+$bg-dark: #080d16; // Saytning umumiy to'q foni
+$bg-card: #111a2e; // Navbar, sidebar va panellar foni
+$text-light: #f3f4f6; // Asosiy yorqin matn ranggi
+$text-muted: #9ca3af; // Ikkinchi darajali xira matn ranggi
+$neon-blue: #00e5ff; // Aktiv elementlar va neon chiziqlar
+$neon-blue-glow: rgba(0, 229, 255, 0.4);
+$neon-green: #00e676; // Yutuq, to'g'ri yurish yoki ochilgan variantlar
+$neon-red: #ff1744; // Xatolik, yutqaziq yoki shoh holati
+
+// Shaxmat taxtasi ranglari
+$board-light: #ececd7;
+$board-dark: #739552;
+
+// 2. Global Reset & Box Sizing
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background-color: $bg-dark;
+    color: $text-light;
+    overflow-x: hidden;
+}
+
+// 3. Umumiy reusable scrollbar dizayni
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: $bg-dark;
+}
+
+::-webkit-scrollbar-thumb {
+    background: lighten($bg-card, 10%);
+    border-radius: 4px;
+
+    &:hover {
+        background: $neon-blue;
+    }
+}
+
+// 4. Global Animations
+@keyframes neonPulse {
+    0% {
+        box-shadow: 0 0 5px $neon-blue-glow;
+    }
+
+    50% {
+        box-shadow: 0 0 20px $neon-blue-glow;
+    }
+
+    100% {
+        box-shadow: 0 0 5px $neon-blue-glow;
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
