@@ -1,1 +1,24 @@
-<p>game-sidebar works!</p>
+<div class="sidebar-container">
+    <div class="config-section">
+        <h5>🤖 Stockfish Level</h5>
+        <div class="level-selector">
+            @for (lvl of [1, 2, 3, 4, 5]; track lvl) {
+            <button [class.active]="currentLevel === lvl" (click)="currentLevel = lvl">
+                {{ lvl }}
+            </button>
+            }
+        </div>
+    </div>
+
+    <app-move-history></app-move-history>
+
+    <div class="actions-section">
+        <button class="action-btn danger-btn">
+            🏳️ Resign (Taslim bo'lish)
+        </button>
+        <div class="sub-actions">
+            <button class="action-btn secondary-btn">🤝 Draw</button>
+            <button class="action-btn secondary-btn">🔄 Restart</button>
+        </div>
+    </div>
+</div>

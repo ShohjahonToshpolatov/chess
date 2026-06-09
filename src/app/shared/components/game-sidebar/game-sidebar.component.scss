@@ -1,0 +1,97 @@
+@import '../../../../styles.scss';
+
+.sidebar-container {
+    background: $bg-card;
+    border: 1px solid rgba($neon-blue, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: 100%;
+    min-width: 320px;
+
+    h5 {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: $text-muted;
+        margin-bottom: 0.6rem;
+    }
+
+    .level-selector {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.4rem;
+
+        button {
+            background: $bg-dark;
+            border: 1px solid rgba($text-light, 0.05);
+            color: $text-light;
+            padding: 0.6rem 0;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+                border-color: rgba($neon-blue, 0.5);
+                color: $neon-blue;
+            }
+
+            &.active {
+                background: $neon-blue;
+                color: $bg-dark;
+                box-shadow: 0 0 12px $neon-blue-glow;
+                border-color: $neon-blue;
+            }
+        }
+    }
+
+    .actions-section {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        margin-top: auto; // Tugmalarni doim pastda ushlab turadi
+
+        .action-btn {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .danger-btn {
+            background: rgba($neon-red, 0.1);
+            color: $neon-red;
+            border: 1px solid rgba($neon-red, 0.2);
+
+            &:hover {
+                background: $neon-red;
+                color: white;
+                box-shadow: 0 4px 15px rgba($neon-red, 0.4);
+            }
+        }
+
+        .sub-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+        }
+
+        .secondary-btn {
+            background: rgba($text-light, 0.03);
+            color: $text-light;
+            border: 1px solid rgba($text-light, 0.08);
+
+            &:hover {
+                background: rgba($text-light, 0.08);
+            }
+        }
+    }
+}

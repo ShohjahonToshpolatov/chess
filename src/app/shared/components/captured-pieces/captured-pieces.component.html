@@ -1,1 +1,15 @@
-<p>captured-pieces works!</p>
+<div class="captured-panel" [class.is-white]="isWhiteSide">
+    <div class="side-info">
+        <span class="player-title">{{ isWhiteSide ? 'Player (Siz)' : 'Stockfish AI Bot' }}</span>
+        <span class="timer" [class.low-time]="false">05:00</span>
+    </div>
+
+    <div class="pieces-list">
+        @for (piece of pieces; track $index) {
+        <span class="captured-piece">{{ piece }}</span>
+        }
+        @if (scoreDiff > 0) {
+        <span class="score-diff">+{{ scoreDiff }}</span>
+        }
+    </div>
+</div>

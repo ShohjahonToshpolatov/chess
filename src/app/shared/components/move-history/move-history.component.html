@@ -1,1 +1,23 @@
-<p>move-history works!</p>
+<div class="history-container">
+    <div class="history-header">
+        <h4>📋 Move History</h4>
+    </div>
+
+    <div class="moves-table">
+        <div class="table-header">
+            <span>#</span>
+            <span>White</span>
+            <span>Black</span>
+        </div>
+
+        <div class="moves-body">
+            @for (turn of mockMoves; track turn.num) {
+            <div class="move-row">
+                <span class="move-num">{{ turn.num }}.</span>
+                <span class="move-notation">{{ turn.w }}</span>
+                <span class="move-notation" [class.empty]="!turn.b">{{ turn.b || '-' }}</span>
+            </div>
+            }
+        </div>
+    </div>
+</div>
