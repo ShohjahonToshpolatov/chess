@@ -1,0 +1,111 @@
+@import '../../../../styles.scss';
+
+.chessboard-wrapper {
+    background: $bg-card;
+    border: 2px solid rgba($neon-blue, 0.15);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .board {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 600px;
+        aspect-ratio: 1 / 1;
+        border: 4px solid lighten($bg-card, 5%);
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .board-row {
+        display: flex;
+        flex: 1;
+        width: 100%;
+    }
+
+    .square {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+        transition: background-color 0.2s ease;
+
+        &.light {
+            background-color: $board-light;
+            color: $board-dark;
+        }
+
+        &.dark {
+            background-color: $board-dark;
+            color: $board-light;
+        }
+
+        // Tanlangan katak effekti (Neon Glow)
+        &.selected {
+            box-shadow: inset 0 0 15px rgba($neon-blue, 0.8);
+            background-color: rgba($neon-blue, 0.25) !important;
+        }
+
+        // Yurish mumkin bo'lgan katak ustiga rasm/figura bo'lsa
+        &.highlighted {
+            box-shadow: inset 0 0 12px rgba($neon-green, 0.6);
+        }
+
+        .coord {
+            position: absolute;
+            font-size: 0.7rem;
+            font-weight: 700;
+            opacity: 0.6;
+            pointer-events: none;
+
+            &.rank {
+                top: 4px;
+                left: 4px;
+            }
+
+            &.file {
+                bottom: 4px;
+                right: 4px;
+            }
+        }
+
+        .piece {
+            font-size: 3.2rem;
+            z-index: 5;
+            transition: transform 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #1a1a1a; // Qora figuralar
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+
+            &.white-piece {
+                color: #ffffff; // Oq figuralar
+                filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+            }
+
+            &:hover {
+                transform: scale(1.08);
+            }
+        }
+
+        // Bo'sh katakka yurish belgisi
+        .move-marker {
+            width: 18px;
+            height: 18px;
+            background-color: rgba($neon-green, 0.7);
+            border-radius: 50%;
+            box-shadow: 0 0 8px $neon-green;
+            pointer-events: none;
+            z-index: 4;
+        }
+    }
+}

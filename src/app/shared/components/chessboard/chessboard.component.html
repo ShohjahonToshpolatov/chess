@@ -1,1 +1,30 @@
-<p>chessboard works!</p>
+<div class="chessboard-wrapper">
+    <div class="board">
+        @for (row of boardGrid; track rowIndex; let rowIndex = $index) {
+        <div class="board-row">
+            @for (square of row; track colIndex; let colIndex = $index) {
+            <div class="square" [class.light]="(rowIndex + colIndex) % 2 === 0"
+                [class.dark]="(rowIndex + colIndex) % 2 !== 0" [class.selected]="selectedSquare === square.coord"
+                [class.highlighted]="possibleMoves.includes(square.coord)" (click)="onSquareClick(square.coord)">
+                @if (colIndex === 0) {
+                <span class="coord rank">{{ 8 - rowIndex }}</span>
+                }
+                @if (rowIndex === 7) {
+                <span class="coord file">{{ files[colIndex] }}</span>
+                }
+
+                @if (square.piece) {
+                <div class="piece" [class.white-piece]="square.isWhite">
+                    {{ square.piece }}
+                </div>
+                }
+
+                @if (possibleMoves.includes(square.coord) && !square.piece) {
+                <div class="move-marker"></div>
+                }
+            </div>
+            }
+        </div>
+        }
+    </div>
+</div>
