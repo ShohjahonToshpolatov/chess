@@ -5,91 +5,96 @@
     border: 2px solid rgba($neon-blue, 0.15);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
     border-radius: 16px;
-    padding: 1.5rem;
+    padding: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
 
     .board {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-rows: repeat(8, 1fr);
         width: 100%;
-        max-width: 600px;
-        aspect-ratio: 1 / 1;
-        border: 4px solid lighten($bg-card, 5%);
+        aspect-ratio: 1 / 1; // Shaxsiy kvadrat shaklini majburlaydi
+        border: 6px solid lighten($bg-card, 4%);
         border-radius: 8px;
+        background-color: $board-dark;
         overflow: hidden;
-        position: relative;
     }
 
     .board-row {
-        display: flex;
-        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
         width: 100%;
+        height: 100%;
     }
 
     .square {
-        flex: 1;
+        width: 100%;
+        height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         position: relative;
         cursor: pointer;
         user-select: none;
-        transition: background-color 0.2s ease;
 
         &.light {
             background-color: $board-light;
-            color: $board-dark;
         }
 
         &.dark {
             background-color: $board-dark;
-            color: $board-light;
         }
 
-        // Tanlangan katak effekti (Neon Glow)
         &.selected {
             box-shadow: inset 0 0 15px rgba($neon-blue, 0.8);
-            background-color: rgba($neon-blue, 0.25) !important;
+            background-color: rgba($neon-blue, 0.3) !important;
         }
 
-        // Yurish mumkin bo'lgan katak ustiga rasm/figura bo'lsa
         &.highlighted {
-            box-shadow: inset 0 0 12px rgba($neon-green, 0.6);
+            background-color: rgba($neon-green, 0.25) !important;
+            box-shadow: inset 0 0 8px rgba($neon-green, 0.5);
         }
 
         .coord {
             position: absolute;
-            font-size: 0.7rem;
-            font-weight: 700;
-            opacity: 0.6;
+            font-size: 0.65rem;
+            font-weight: 800;
+            opacity: 0.5;
             pointer-events: none;
+            z-index: 2;
 
             &.rank {
-                top: 4px;
+                top: 2px;
                 left: 4px;
             }
 
             &.file {
-                bottom: 4px;
+                bottom: 2px;
                 right: 4px;
             }
         }
 
+        // Katak o'lchamiga qarab shrift kattalashadi va siqilmaydi
         .piece {
-            font-size: 3.2rem;
+            font-size: clamp(1.8rem, 4vw, 3.2rem);
+            line-height: 1;
             z-index: 5;
-            transition: transform 0.2s ease;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #1a1a1a; // Qora figuralar
+            color: #111a2e; // Xira qora o'rniga chuqur quyuq rang
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+            width: 100%;
+            height: 100%;
+            transition: transform 0.15s ease;
 
             &.white-piece {
-                color: #ffffff; // Oq figuralar
-                filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+                color: #ffffff;
+                filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 4px rgba(255, 255, 255, 0.2));
             }
 
             &:hover {
@@ -97,13 +102,12 @@
             }
         }
 
-        // Bo'sh katakka yurish belgisi
         .move-marker {
-            width: 18px;
-            height: 18px;
-            background-color: rgba($neon-green, 0.7);
+            width: clamp(10px, 2vw, 16px);
+            height: clamp(10px, 2vw, 16px);
+            background-color: $neon-green;
             border-radius: 50%;
-            box-shadow: 0 0 8px $neon-green;
+            box-shadow: 0 0 10px $neon-green;
             pointer-events: none;
             z-index: 4;
         }

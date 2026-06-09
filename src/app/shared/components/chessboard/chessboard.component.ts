@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Chess } from 'chess.js';
 
 interface ChessSquare {
   coord: string;
@@ -14,43 +15,42 @@ interface ChessSquare {
   styleUrl: './chessboard.component.scss'
 })
 export class ChessboardComponent implements OnInit {
+  private chess = new Chess();
+
   files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   boardGrid: ChessSquare[][] = [];
 
-  // Hozircha visual test uchun mock ma'lumotlar
   selectedSquare: string | null = null;
-  possibleMoves: string[] = ['e3', 'e4', 'd4', 'f4'];
+  possibleMoves: string[] = [];
+
+  // O'yin yon paneli va tarixiga yurishlarni xabar qilish uchun
+  @Output() moveMade = new EventEmitter<{ san: string, history: any[] }>();
+
+  // Unicode shaxmat figuralari xaritasi
+  private pieceMap: { [key: string]: string } = {
+    'p': '♟', 'r': '♜', 'n': '♞', 'b': '♝', 'q': '♛', 'k': '♚',
+    'P': '♙', 'R': '♖', 'N': '♘', 'B': '♗', 'Q': '♕', 'K': '♔'
+  };
 
   ngOnInit() {
-    this.generateInitialBoard();
+    this.updateBoardView();
   }
 
-  generateInitialBoard() {
-    // Shaxmat taxtasini boshlang'ich vizual holatda chizish (Mock)
-    const initialPieces: { [key: string]: { char: string, isWhite: boolean } } = {
-      'a8': { char: '♜', isWhite: false }, 'b8': { char: '♞', isWhite: false }, 'c8': { char: '♝', isWhite: false }, 'd8': { char: '♛', isWhite: false },
-      'e8': { char: '♚', isWhite: false }, 'f8': { char: '♝', isWhite: false }, 'g8': { char: '♞', isWhite: false }, 'h8': { char: '♜', isWhite: false },
-      'a7': { char: '♟', isWhite: false }, 'b7': { char: '♟', isWhite: false }, 'c7': { char: '♟', isWhite: false }, 'd7': { char: '♟', isWhite: false },
-      'e7': { char: '♟', isWhite: false }, 'f7': { char: '♟', isWhite: false }, 'g7': { char: '♟', isWhite: false }, 'h7': { char: '♟', isWhite: false },
-
-      'a2': { char: '♙', isWhite: true }, 'b2': { char: '♙', isWhite: true }, 'c2': { char: '♙', isWhite: true }, 'd2': { char: '♙', isWhite: true },
-      'e2': { char: '♙', isWhite: true }, 'f2': { char: '♙', isWhite: true }, 'g2': { char: '♙', isWhite: true }, 'h2': { char: '♙', isWhite: true },
-      'a1': { char: '♖', isWhite: true }, 'b1': { char: '♘', isWhite: true }, 'c1': { char: '♗', isWhite: true }, 'd1': { char: '♕', isWhite: true },
-      'e1': { char: '♔', isWhite: true }, 'f1': { char: '♗', isWhite: true }, 'g1': { char: '♘', isWhite: true }, 'h1': { char: '♖', isWhite: true },
-    };
+  // chess.js holatidan kelib chiqib taxtani vizual qayta chizish
+  updateBoardView() {
+    const chessBoard = this.chess.board();
+    this.boardGrid = [];
 
     for (let r = 0; r < 8; r++) {
       const row: ChessSquare[] = [];
-      const rank = 8 - r;
       for (let c = 0; c < 8; c++) {
-        const file = this.files[c];
-        const coord = `${file}${rank}`;
-        const pieceData = initialPieces[coord];
+        const piece = chessBoard[r][c];
+        const coord = `${this.files[c]}${8 - r}`;
 
         row.push({
           coord: coord,
-          piece: pieceData ? pieceData.char : null,
-          isWhite: pieceData ? pieceData.isWhite : false
+          piece: piece ? this.pieceMap[piece.color === 'w' ? piece.type.toUpperCase() : piece.type] : null,
+          isWhite: piece ? piece.color === 'w' : false
         });
       }
       this.boardGrid.push(row);
@@ -58,10 +58,74 @@ export class ChessboardComponent implements OnInit {
   }
 
   onSquareClick(coord: string) {
-    if (this.selectedSquare === coord) {
+    // Agar foydalanuvchi marker qo'yilgan katakni bossa — u yerga yuradi
+    if (this.possibleMoves.includes(coord) && this.selectedSquare) {
+      try {
+        const move = this.chess.move({
+          from: this.selectedSquare,
+          to: coord,
+          promotion: 'q' // Peshka oxiriga yetsa avtomatik Farzinga aylanadi
+        });
+
+        if (move) {
+          this.updateBoardView();
+          this.moveMade.emit({
+            san: move.san,
+            history: this.chess.history()
+          });
+
+          // Bot harakatini simulyatsiya qilish (Keyingi qadamda Stockfish ulanadi)
+          setTimeout(() => this.makeRandomBotMove(), 600);
+        }
+      } catch (e) {
+        console.log("Yurishda xatolik:", e);
+      }
+
       this.selectedSquare = null;
-    } else {
-      this.selectedSquare = coord;
+      this.possibleMoves = [];
+      return;
     }
+
+    // Katak tanlanganda uning yurish variantlarini olish
+    const squareData = this.getSquareData(coord);
+    if (squareData && squareData.piece && this.chess.turn() === (squareData.isWhite ? 'w' : 'b')) {
+      this.selectedSquare = coord;
+      const moves = this.chess.moves({ square: coord as any, verbose: true });
+      this.possibleMoves = moves.map(m => m.to);
+    } else {
+      this.selectedSquare = null;
+      this.possibleMoves = [];
+    }
+  }
+
+  private getSquareData(coord: string): ChessSquare | null {
+    for (const row of this.boardGrid) {
+      const found = row.find(s => s.coord === coord);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  // Stockfish ulanguncha bot o'zgaruvchanligini tekshirish uchun oddiy harakat
+  private makeRandomBotMove() {
+    if (this.chess.isGameOver()) return;
+    const moves = this.chess.moves();
+    if (moves.length > 0) {
+      const randomMove = moves[Math.floor(Math.random() * moves.length)];
+      this.chess.move(randomMove);
+      this.updateBoardView();
+      this.moveMade.emit({
+        san: randomMove,
+        history: this.chess.history()
+      });
+    }
+  }
+
+  // O'yinni qayta boshlash funksiyasi
+  resetGame() {
+    this.chess.reset();
+    this.selectedSquare = null;
+    this.possibleMoves = [];
+    this.updateBoardView();
   }
 }

@@ -1,0 +1,36 @@
+@import '../../../styles.scss';
+
+.play-page-container {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 3rem;
+    align-items: start;
+    padding: 1rem 0;
+
+    .chess-arena {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+    }
+
+    .control-panel {
+        position: sticky;
+        top: 90px; // Navbar balandligiga moslab pastga tushirish
+        height: calc(100vh - 130px);
+    }
+}
+
+// Kichik ekranlar uchun moslashuvchanlik (Responsive)
+@media (max-width: 1024px) {
+    .play-page-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+
+        .control-panel {
+            position: static;
+            height: auto;
+        }
+    }
+}

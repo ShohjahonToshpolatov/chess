@@ -1,1 +1,13 @@
-<p>play-computer works!</p>
+<div class="play-page-container">
+    <div class="chess-arena">
+        <app-captured-pieces [isWhiteSide]="false"></app-captured-pieces>
+
+        <app-chessboard></app-chessboard>
+
+        <app-captured-pieces [isWhiteSide]="true"></app-captured-pieces>
+    </div>
+
+    <div class="control-panel">
+        <app-game-sidebar></app-game-sidebar>
+    </div>
+</div>
