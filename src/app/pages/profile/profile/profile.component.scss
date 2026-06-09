@@ -1,0 +1,177 @@
+@import '../../../styles.scss';
+
+.profile-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+
+    .profile-grid {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 2rem;
+    }
+
+    .main-profile-card,
+    .settings-form-card {
+        background: $bg-card;
+        border: 1px solid rgba($neon-blue, 0.15);
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .profile-avatar-zone {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.8rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-bottom: 1.5rem;
+
+        img {
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            border: 2px solid $neon-blue;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            background: rgba($neon-blue, 0.1);
+            color: $neon-blue;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+    }
+
+    .stats-overview {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 1.5rem;
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+
+            .num {
+                font-size: 1.3rem;
+                font-weight: 800;
+                font-family: monospace;
+            }
+
+            .lbl {
+                font-size: 0.75rem;
+                color: $text-muted;
+                margin-top: 0.2rem;
+            }
+
+            .text-blue {
+                color: $neon-blue;
+            }
+
+            .text-green {
+                color: $neon-green;
+            }
+        }
+    }
+
+    .settings-form-card {
+        h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+
+            label {
+                font-size: 0.85rem;
+                color: $text-muted;
+                font-weight: 600;
+            }
+
+            .form-input {
+                background: rgba($bg-dark, 0.6);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                padding: 0.8rem;
+                border-radius: 10px;
+                color: white;
+                font-size: 0.9rem;
+
+                &:focus {
+                    border-color: $neon-blue;
+                    outline: none;
+                }
+            }
+
+            select.form-input {
+                cursor: pointer;
+
+                option {
+                    background: $bg-card;
+                    color: white;
+                }
+            }
+
+            &.checkbox-group {
+                flex-direction: row;
+                align-items: center;
+                gap: 0.8rem;
+                margin-top: 1.5rem;
+                cursor: pointer;
+
+                input {
+                    cursor: pointer;
+                    width: 16px;
+                    height: 16px;
+                }
+
+                label {
+                    color: lighten($text-light, 5%);
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .save-settings-btn {
+            width: 100%;
+            background: $neon-blue;
+            color: $bg-dark;
+            border: none;
+            padding: 0.9rem;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.2s;
+
+            &:hover {
+                box-shadow: 0 4px 20px rgba($neon-blue, 0.4);
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+}

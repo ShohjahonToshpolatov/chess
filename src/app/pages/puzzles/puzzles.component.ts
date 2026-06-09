@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ChessboardComponent } from '../../shared/components/chessboard/chessboard.component';
 
-interface Puzzle {
+interface ChessPuzzle {
   id: number;
-  initialFen: string;    // Topishmoq boshlanish holati
-  correctMoveFrom: string; // To'g'ri yurish boshlanishi
-  correctMoveTo: string;   // To'g'ri yurish tugashi
+  title: string;
+  fen: string;           // Vaziyat boshlanishi
+  solutionFrom: string;  // To'g'ri yurish boshlang'ich katagi
+  solutionTo: string;    // To'g'ri yurish yakuniy katagi
   rating: number;
-  theme: string;
+  description: string;
   hint: string;
 }
 
@@ -22,72 +23,93 @@ export class PuzzlesComponent implements OnInit, AfterViewInit {
   @ViewChild('puzzleBoard') puzzleBoard!: ChessboardComponent;
 
   puzzleStatus: 'waiting' | 'correct' | 'wrong' = 'waiting';
-  currentPuzzleIndex = 0;
+  currentIndex = 0;
 
-  // Real shaxmat topishmoqlari bazasi (FEN formatida)
-  puzzlesDatabase: Puzzle[] = [
+  // Real Shaxmat Taktikalari Bazasi
+  puzzlesDb: ChessPuzzle[] = [
     {
       id: 1,
-      // Mashhur taktik pozitsiya: Farzin va Ot hujumi
-      initialFen: 'r1bqk2r/pppp1ppp/2n2n2/2b1p1N1/2B1P3/8/PPPP1PPP/RNBQK2R w KQkq - 6 5',
-      correctMoveFrom: 'c4',
-      correctMoveTo: 'f7',
-      rating: 1200,
-      theme: 'Fleshka hujumi (Fried Liver Attack)',
-      hint: 'f7 katagidagi himoyasiz peshkaga eng kuchli figura bilan zarba bering!'
+      title: "Fried Liver Attack (Fleshka Zarbasi)",
+      fen: "r1bqk2r/pppp1ppp/2n2n2/2b1p1N1/2B1P3/8/PPPP1PPP/RNBQK2R w KQkq - 6 5",
+      solutionFrom: "c4",
+      solutionTo: "f7",
+      rating: 1100,
+      description: "Oqlar bilan o'ynaysiz. Raqibning f7 peshkasiga hal qiluvchi zarba bering!",
+      hint: "Oq fillar (Bishop) f7 dagi zaif peshkaga qarab turibdi."
     },
     {
       id: 2,
-      // Orqa chiziqdagi mot qilish holati
-      initialFen: '6k1/5ppp/8/8/8/8/8/6KR w - - 0 1',
-      correctMoveFrom: 'h1',
-      correctMoveTo: 'h8',
-      rating: 1450,
-      theme: 'Back-rank Mate (Orqa chiziq moti)',
-      hint: 'Ruh (Rook) bilan raqib shohini eng chekka chiziqqa siqib qo\'ying.'
+      title: "Back-Rank Mate (Orqa chiziq moti)",
+      fen: "6k1/5ppp/8/8/8/8/8/6KR w - - 0 1",
+      solutionFrom: "h1",
+      solutionTo: "h8",
+      rating: 1350,
+      description: "Raqib shohi qamalib qolgan. Birgina yurishda mot qiling!",
+      hint: "Ruhingizni (Rook) oxirgi gorizontal liniyaga olib o'ting."
     }
   ];
 
-  get currentPuzzle(): Puzzle {
-    return this.puzzlesDatabase[this.currentPuzzleIndex];
+  get currentPuzzle(): ChessPuzzle {
+    return this.puzzlesDb[this.currentIndex];
   }
 
   ngOnInit() { }
 
   ngAfterViewInit() {
-    // Sahifa yuklanishi bilan birinchi topishmoqni yuklaymiz
-    setTimeout(() => this.loadCurrentPuzzle(), 100);
+    // Komponent yuklangandan keyin biroz kutib pozitsiyani yuklaymiz
+    setTimeout(() => this.loadPuzzle(), 150);
   }
 
-  loadCurrentPuzzle() {
+  loadPuzzle() {
     this.puzzleStatus = 'waiting';
     if (this.puzzleBoard) {
-      this.puzzleBoard.loadPosition(this.currentPuzzle.initialFen);
+      // Taxtaga yangi pozitsiyani FEN orqali yuklaymiz
+      this.puzzleBoard.loadPosition(this.currentPuzzle.fen);
 
-      // Taxtadan kelayotgan har bir yurish eventini tinglaymiz
-      this.puzzleBoard.moveMade.subscribe((event) => {
-        this.handleUserMove(event.history);
+      // Taxtadan kelayotgan har bir yurish eventini tinglash
+      this.puzzleBoard.moveMade.unsubscribe(); // Oldingi subscriberlarni tozalash
+      this.puzzleBoard.moveMade.subscribe((event: any) => {
+        this.verifyUserMove(event.history);
       });
     }
   }
 
-  handleUserMove(history: string[]) {
-    // Foydalanuvchining oxirgi qilgan yurishini tekshirish
-    // Bu yerda biz real vaqtda yechim to'g'riligini aniqlaymiz
-    console.log("Foydalanuvchi yurdi:", history);
+  // Foydalanuvchi yurishini real vaqtda tekshirish algoritmi
+  verifyUserMove(history: string[]) {
+    if (!history || history.length === 0) return;
 
-    // Soddaroq tekshirish mantiqi (Yurishlar soni o'zgarganda)
-    if (history.length > 0) {
-      this.puzzleStatus = 'correct';
+    // Chessboard komponentidagi ichki chess.js obyektidan oxirgi yurish tafsilotlarini olish
+    // Bizga foydalanuvchi qaysi katakdan qaysi katakka yurgani kerak
+    const boardApi = (this.puzzleBoard as any).chess;
+    const moveHistory = boardApi.history({ verbose: true });
+    const lastMove = moveHistory[moveHistory.length - 1];
+
+    if (lastMove) {
+      const userFrom = lastMove.from;
+      const userTo = lastMove.to;
+
+      // Biz kutgan to'g'ri yechim bilan solishtiramiz
+      if (userFrom === this.currentPuzzle.solutionFrom && userTo === this.currentPuzzle.solutionTo) {
+        this.puzzleStatus = 'correct';
+        console.log("To'g'ri yechim topildi!");
+      } else {
+        this.puzzleStatus = 'wrong';
+        console.log("Xato yurish qildingiz.");
+        // Agar xato bo'lsa, taxtani srazi eski holatiga qaytarib qo'yamiz
+        setTimeout(() => {
+          this.puzzleBoard.loadPosition(this.currentPuzzle.fen);
+          this.puzzleStatus = 'waiting';
+        }, 1200);
+      }
     }
   }
 
-  showHint() {
-    alert(`💡 Yordam: ${this.currentPuzzle.hint}`);
+  getHint() {
+    alert(`💡 Shaxmat ustasi maslahati:\n${this.currentPuzzle.hint}`);
   }
 
   nextPuzzle() {
-    this.currentPuzzleIndex = (this.currentPuzzleIndex + 1) % this.puzzlesDatabase.length;
-    this.loadCurrentPuzzle();
+    this.currentIndex = (this.currentIndex + 1) % this.puzzlesDb.length;
+    this.loadPuzzle();
   }
 }

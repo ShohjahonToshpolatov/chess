@@ -11,7 +11,7 @@
             <h3>🧩 Daily Puzzle #{{ currentPuzzle.id }}</h3>
             <div class="puzzle-meta">
                 <span>Qiyinchilik: <strong class="rating-text">{{ currentPuzzle.rating }} ELO</strong></span>
-                <span>Mavzu: **{{ currentPuzzle.theme }}**</span>
+                <span>Mavzu: <strong>{{ currentPuzzle.theme }}</strong></span>
             </div>
 
             <div class="status-box" [class.success]="puzzleStatus === 'correct'"
@@ -26,7 +26,7 @@
             </div>
 
             <div class="puzzle-actions">
-                <button class="btn-action primary-btn" (click)="showHint()">💡 Klavish (Yordam)</button>
+                <button class="btn-action primary-btn" (click)="getHint()">💡 Klavish (Yordam)</button>
                 <button class="btn-action secondary-btn" (click)="nextPuzzle()">Keyingi Topishmoq ➡️</button>
             </div>
         </div>

@@ -1,1 +1,49 @@
-<p>profile works!</p>
+<div class="profile-container">
+    <div class="profile-grid">
+        <div class="main-profile-card">
+            <div class="profile-avatar-zone">
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=shoh" alt="Avatar">
+                <h2>Shohjahon</h2>
+                <span class="status-badge">Premium Developer</span>
+            </div>
+
+            <div class="stats-overview">
+                <div class="stat-box">
+                    <span class="num text-blue">1450</span>
+                    <span class="lbl">Blitz ELO</span>
+                </div>
+                <div class="stat-box">
+                    <span class="num text-green">84%</span>
+                    <span class="lbl">Puzzles Winrate</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-form-card">
+            <h3>⚙️ Hisob Sozlamalari</h3>
+
+            <div class="form-group">
+                <label>Foydalanuvchi nomi</label>
+                <input type="text" value="Shohjahon" class="form-input">
+            </div>
+
+            <div class="form-group">
+                <label>O'yin Interfeysi Ranglari</label>
+                <select class="form-input">
+                    <option>Neon Cyberpunk (Standart)</option>
+                    <option>Klassik Shaxmat Xonasi</option>
+                    <option>Zulmatli Kecha (Deep Dark)</option>
+                </select>
+            </div>
+
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="sounds" checked>
+                <label for="sounds">O'yin tovushlari va effektlarini yoqish</label>
+            </div>
+
+            <button class="save-settings-btn" (click)="saveProfileSettings()">
+                💾 O'zgarishlarni Saqlash
+            </button>
+        </div>
+    </div>
+</div>
