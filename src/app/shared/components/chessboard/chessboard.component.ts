@@ -120,7 +120,18 @@ export class ChessboardComponent implements OnInit {
       });
     }
   }
+  // FEN bo'yicha taxtani yangilash (Puzzles uchun kerak)
+  loadPosition(fen: string) {
+    this.chess.load(fen);
+    this.selectedSquare = null;
+    this.possibleMoves = [];
+    this.updateBoardView();
+  }
 
+  // Hozirgi dynamic holatni tekshirish uchun (Yechimni tekshirishda asqatadi)
+  getGameFen(): string {
+    return this.chess.fen();
+  }
   // O'yinni qayta boshlash funksiyasi
   resetGame() {
     this.chess.reset();

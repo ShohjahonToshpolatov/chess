@@ -1,0 +1,144 @@
+@import '../../../styles.scss';
+
+.puzzle-page-container {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 3rem;
+    padding: 1rem 0;
+    align-items: start; // Taxtani vertikal cho'zilib ketishdan saqlaydi
+
+    .chess-arena {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+
+        .puzzle-board-box {
+            width: 100%;
+            max-width: 520px; // Play sahifasidagi real vizual o'lchamga keltiramiz
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .puzzle-badge {
+            background: rgba($neon-blue, 0.1);
+            border: 1px solid rgba($neon-blue, 0.3);
+            color: $neon-blue;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            font-weight: 700;
+            text-align: center;
+            font-size: 0.9rem;
+            box-shadow: 0 0 15px rgba($neon-blue, 0.1);
+        }
+    }
+
+    .puzzle-sidebar {
+        .puzzle-card {
+            background: $bg-card;
+            border: 1px solid rgba($neon-blue, 0.15);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+
+            h3 {
+                font-size: 1.3rem;
+                font-weight: 800;
+                margin: 0;
+            }
+
+            .puzzle-meta {
+                display: flex;
+                flex-direction: column;
+                gap: 0.4rem;
+                font-size: 0.9rem;
+                color: $text-muted;
+
+                .rating-text {
+                    color: $neon-blue;
+                    font-family: monospace;
+                    font-size: 1rem;
+                    font-weight: 700;
+                }
+            }
+
+            .status-box {
+                background: rgba($bg-dark, 0.6);
+                border: 1px solid rgba($text-light, 0.05);
+                padding: 1rem;
+                border-radius: 10px;
+                text-align: center;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .status-text {
+                    margin: 0;
+                    font-weight: 600;
+                    font-size: 0.9rem;
+                }
+
+                &.success {
+                    background: rgba($neon-green, 0.15);
+                    border-color: $neon-green;
+                    color: $neon-green;
+                    box-shadow: 0 0 15px rgba($neon-green, 0.1);
+                }
+
+                &.error {
+                    background: rgba($neon-red, 0.15);
+                    border-color: $neon-red;
+                    color: $neon-red;
+                    box-shadow: 0 0 15px rgba($neon-red, 0.1);
+                }
+            }
+
+            .puzzle-actions {
+                display: flex;
+                flex-direction: column;
+                gap: 0.6rem;
+
+                .btn-action {
+                    width: 100%;
+                    padding: 0.8rem;
+                    border-radius: 10px;
+                    font-weight: 700;
+                    cursor: pointer;
+                    border: none;
+                    transition: all 0.2s;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+
+                .primary-btn {
+                    background: rgba($neon-blue, 0.1);
+                    color: $neon-blue;
+                    border: 1px solid rgba($neon-blue, 0.3);
+
+                    &:hover {
+                        background: $neon-blue;
+                        color: $bg-dark;
+                        box-shadow: 0 0 15px $neon-blue-glow;
+                    }
+                }
+
+                .secondary-btn {
+                    background: rgba(255, 255, 255, 0.03);
+                    color: white;
+                    border: 1px solid rgba(255, 255, 255, 0.08);
+
+                    &:hover {
+                        background: rgba(255, 255, 255, 0.08);
+                    }
+                }
+            }
+        }
+    }
+}

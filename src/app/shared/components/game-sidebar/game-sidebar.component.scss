@@ -2,62 +2,160 @@
 
 .sidebar-container {
     background: $bg-card;
-    border: 1px solid rgba($neon-blue, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba($neon-blue, 0.15);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
     border-radius: 16px;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.8rem;
     height: 100%;
-    min-width: 320px;
+    box-sizing: border-box;
 
     h5 {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.8px;
         color: $text-muted;
-        margin-bottom: 0.6rem;
+        margin: 0 0 0.8rem 0;
+        font-weight: 700;
     }
 
-    .level-selector {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 0.4rem;
+    // ELO Darajalar bo'limi
+    .config-section {
+        display: flex;
+        flex-direction: column;
 
-        button {
-            background: $bg-dark;
-            border: 1px solid rgba($text-light, 0.05);
-            color: $text-light;
-            padding: 0.6rem 0;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .level-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
 
-            &:hover {
-                border-color: rgba($neon-blue, 0.5);
-                color: $neon-blue;
-            }
+            button {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: rgba($bg-dark, 0.6);
+                border: 1px solid rgba($text-light, 0.05);
+                color: $text-light;
+                padding: 0.75rem 1.2rem;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
-            &.active {
-                background: $neon-blue;
-                color: $bg-dark;
-                box-shadow: 0 0 12px $neon-blue-glow;
-                border-color: $neon-blue;
+                .elo-num {
+                    font-weight: 800;
+                    font-family: 'SF Mono', Consolas, monospace;
+                    font-size: 1rem;
+                }
+
+                .elo-title {
+                    font-size: 0.75rem;
+                    color: $text-muted;
+                    text-transform: uppercase;
+                    font-weight: 600;
+                }
+
+                &:hover {
+                    border-color: rgba($neon-blue, 0.4);
+                    background: rgba($bg-dark, 0.9);
+                    transform: translateX(4px);
+                }
+
+                &.active {
+                    background: radial-gradient(circle at left, rgba($neon-blue, 0.15), transparent 70%), lighten($bg-card, 3%);
+                    color: $neon-blue;
+                    border-color: $neon-blue;
+                    box-shadow: 0 0 15px rgba($neon-blue, 0.15);
+
+                    .elo-title {
+                        color: rgba($neon-blue, 0.8);
+                    }
+                }
             }
         }
     }
 
+    // Live Move History (Jadval) bo'limi
+    .history-section {
+        display: flex;
+        flex-direction: column;
+        flex: 1; // Bo'sh joyni to'liq egallaydi
+        min-height: 220px;
+
+        .moves-table {
+            display: flex;
+            flex-direction: column;
+            background: rgba($bg-dark, 0.4);
+            border-radius: 10px;
+            border: 1px solid rgba($text-light, 0.03);
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 50px 1fr 1fr; // Aniq ustun o'lchamlari
+            padding: 0.6rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: $text-muted;
+            border-bottom: 1px solid rgba($text-light, 0.05);
+        }
+
+        .moves-body {
+            flex: 1;
+            overflow-y: auto; // Ko'p yurish bo'lsa ichida skroll bo'ladi
+            max-height: 240px;
+
+            .move-row {
+                display: grid;
+                grid-template-columns: 50px 1fr 1fr; // Header bilan bir xil grid
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+                align-items: center;
+                border-bottom: 1px solid rgba($text-light, 0.02);
+
+                &:nth-child(even) {
+                    background: rgba(255, 255, 255, 0.01);
+                }
+
+                .col-num {
+                    color: $text-muted;
+                    font-weight: 600;
+                }
+
+                .col-move {
+                    font-family: 'SF Mono', Consolas, monospace;
+                    font-weight: 600;
+
+                    &.white-move {
+                        color: lighten($text-light, 10%);
+                    }
+
+                    &.black-move {
+                        color: rgba($text-light, 0.8);
+                    }
+
+                    &.empty {
+                        color: rgba($text-light, 0.2);
+                    }
+                }
+            }
+        }
+    }
+
+    // Pastki tugmalar bo'limi
     .actions-section {
         display: flex;
         flex-direction: column;
         gap: 0.6rem;
-        margin-top: auto; // Tugmalarni doim pastda ushlab turadi
+        margin-top: auto; // Doim eng pastga yopishib turadi
 
         .action-btn {
             width: 100%;
-            padding: 0.8rem;
+            padding: 0.85rem;
             border-radius: 10px;
             font-weight: 700;
             font-size: 0.9rem;
@@ -69,12 +167,12 @@
         .danger-btn {
             background: rgba($neon-red, 0.1);
             color: $neon-red;
-            border: 1px solid rgba($neon-red, 0.2);
+            border: 1px solid rgba($neon-red, 0.25);
 
             &:hover {
                 background: $neon-red;
                 color: white;
-                box-shadow: 0 4px 15px rgba($neon-red, 0.4);
+                box-shadow: 0 4px 20px rgba($neon-red, 0.4);
             }
         }
 
@@ -90,8 +188,27 @@
             border: 1px solid rgba($text-light, 0.08);
 
             &:hover {
-                background: rgba($text-light, 0.08);
+                background: rgba($text-light, 0.1);
+                color: white;
             }
         }
     }
+}
+
+// Skrollbarni ham chiroyli neon qilib qo'yamiz
+.moves-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.moves-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.moves-body::-webkit-scrollbar-thumb {
+    background: rgba($neon-blue, 0.2);
+    border-radius: 4px;
+}
+
+.moves-body::-webkit-scrollbar-thumb:hover {
+    background: rgba($neon-blue, 0.4);
 }

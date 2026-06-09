@@ -1,1 +1,37 @@
-<p>analyze works!</p>
+<div class="analyze-container">
+    <div class="chess-arena">
+        <app-chessboard></app-chessboard>
+    </div>
+
+    <div class="analyze-sidebar">
+        <div class="analyze-card">
+            <h3>📊 Engine Analysis</h3>
+            <p class="subtitle">O'yin matnini (PGN) yuklang va sun'iy intellekt xulosasini oling.</p>
+
+            <div class="input-group">
+                <textarea placeholder="Bu yerga PGN kodini kiriting... (Masalan: 1. e4 e5 2. Nf3 Nc6...)"
+                    [(ngModel)]="pgnInput"></textarea>
+            </div>
+
+            <button class="analyze-btn" (click)="startPgnAnalysis()">
+                🚀 Tahlilni Boshlash
+            </button>
+
+            @if (isAnalyzing) {
+            <div class="loader-box">
+                <div class="spinner"></div>
+                <span>Dvijok harakatlarni tekshirmoqda...</span>
+            </div>
+            }
+
+            @if (analysisResult) {
+            <div class="results-box">
+                <h5>📈 Tahlil Natijalari:</h5>
+                <div class="stat-row">🟢 Zo'r yurishlar: <strong>14</strong></div>
+                <div class="stat-row">🟡 Noaniqliklar: <strong>3</strong></div>
+                <div class="stat-row">🔴 Qo'pol xatolar: <strong class="blunder">1</strong></div>
+            </div>
+            }
+        </div>
+    </div>
+</div>

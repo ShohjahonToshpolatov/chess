@@ -1,0 +1,135 @@
+@import '../../../styles.scss';
+
+.analyze-container {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 3rem;
+    padding: 1rem 0;
+
+    .chess-arena {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .analyze-sidebar {
+        .analyze-card {
+            background: $bg-card;
+            border: 1px solid rgba($neon-blue, 0.15);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+
+            h3 {
+                font-size: 1.4rem;
+                font-weight: 800;
+                margin: 0;
+            }
+
+            .subtitle {
+                font-size: 0.85rem;
+                color: $text-muted;
+                margin: 0;
+            }
+
+            .input-group {
+                textarea {
+                    width: 100%;
+                    height: 120px;
+                    background: rgba($bg-dark, 0.6);
+                    border: 1px solid rgba($text-light, 0.08);
+                    border-radius: 10px;
+                    color: white;
+                    padding: 0.8rem;
+                    font-family: monospace;
+                    font-size: 0.85rem;
+                    resize: none;
+                    box-sizing: border-box;
+
+                    &:focus {
+                        border-color: $neon-blue;
+                        outline: none;
+                        box-shadow: 0 0 10px rgba($neon-blue, 0.2);
+                    }
+                }
+            }
+
+            .analyze-btn {
+                background: $neon-blue;
+                color: $bg-dark;
+                border: none;
+                padding: 0.9rem;
+                border-radius: 10px;
+                font-weight: 800;
+                cursor: pointer;
+                transition: all 0.2s;
+
+                &:hover {
+                    box-shadow: 0 4px 20px rgba($neon-blue, 0.4);
+                    transform: translateY(-1px);
+                }
+            }
+
+            .loader-box {
+                display: flex;
+                align-items: center;
+                gap: 0.8rem;
+                font-size: 0.85rem;
+                color: $text-muted;
+
+                .spinner {
+                    width: 18px;
+                    height: 18px;
+                    border: 2px solid rgba($neon-blue, 0.2);
+                    border-top-color: $neon-blue;
+                    border-radius: 50%;
+                    animation: spin 0.8s linear infinite;
+                }
+            }
+
+            .results-box {
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 10px;
+                padding: 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.6rem;
+
+                h5 {
+                    margin: 0 0 0.2rem 0;
+                    font-size: 0.9rem;
+                    color: $text-muted;
+                }
+
+                .stat-row {
+                    font-size: 0.9rem;
+                    display: flex;
+                    justify-content: space-between;
+
+                    strong {
+                        color: $neon-green;
+                    }
+
+                    .blunder {
+                        color: $neon-red;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 1024px) {
+    .analyze-container {
+        grid-template-columns: 1fr;
+    }
+}

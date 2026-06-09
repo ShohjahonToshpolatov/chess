@@ -1,1 +1,34 @@
-<p>puzzles works!</p>
+<div class="puzzle-page-container">
+    <div class="chess-arena">
+        <div class="puzzle-board-box">
+            <div class="puzzle-badge">🎯 Topshiriq: {{ currentPuzzle.theme }}</div>
+            <app-chessboard #puzzleBoard></app-chessboard>
+        </div>
+    </div>
+
+    <div class="puzzle-sidebar">
+        <div class="puzzle-card">
+            <h3>🧩 Daily Puzzle #{{ currentPuzzle.id }}</h3>
+            <div class="puzzle-meta">
+                <span>Qiyinchilik: <strong class="rating-text">{{ currentPuzzle.rating }} ELO</strong></span>
+                <span>Mavzu: **{{ currentPuzzle.theme }}**</span>
+            </div>
+
+            <div class="status-box" [class.success]="puzzleStatus === 'correct'"
+                [class.error]="puzzleStatus === 'wrong'">
+                @if (puzzleStatus === 'waiting') {
+                <p class="status-text">Yurish kutilmoqda. To'g'ri yo'lni toping...</p>
+                } @else if (puzzleStatus === 'correct') {
+                <p class="status-text">🎉 Ofarin! To'g'ri strategiya topildi!</p>
+                } @else {
+                <p class="status-text">❌ Xato yurish. Qaytadan urinib ko'ring.</p>
+                }
+            </div>
+
+            <div class="puzzle-actions">
+                <button class="btn-action primary-btn" (click)="showHint()">💡 Klavish (Yordam)</button>
+                <button class="btn-action secondary-btn" (click)="nextPuzzle()">Keyingi Topishmoq ➡️</button>
+            </div>
+        </div>
+    </div>
+</div>

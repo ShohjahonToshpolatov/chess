@@ -11,5 +11,15 @@ import { GameSidebarComponent } from '../../shared/components/game-sidebar/game-
   styleUrl: './play-computer.component.scss'
 })
 export class PlayComputerComponent {
-  // Sahifa to'liq visual qismlarni birlashtiradi
+  gameHistory: string[] = [];
+  currentBotElo: number = 1200;
+
+  onMoveMade(event: { san: string; history: string[] }) {
+    this.gameHistory = event.history;
+  }
+
+  onEloSelected(elo: number) {
+    this.currentBotElo = elo;
+    // Bu yerda tanlangan ELO qiymatiga ko'ra Stockfish web-worker chuqurligini o'zgartiramiz
+  }
 }

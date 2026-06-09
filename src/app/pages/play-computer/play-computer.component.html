@@ -2,12 +2,13 @@
     <div class="chess-arena">
         <app-captured-pieces [isWhiteSide]="false"></app-captured-pieces>
 
-        <app-chessboard></app-chessboard>
+        <app-chessboard #boardRef (moveMade)="onMoveMade($event)"></app-chessboard>
 
         <app-captured-pieces [isWhiteSide]="true"></app-captured-pieces>
     </div>
 
     <div class="control-panel">
-        <app-game-sidebar></app-game-sidebar>
+        <app-game-sidebar [rawHistory]="gameHistory" (restartGame)="boardRef.resetGame(); gameHistory = []"
+            (eloChanged)="onEloSelected($event)"></app-game-sidebar>
     </div>
 </div>

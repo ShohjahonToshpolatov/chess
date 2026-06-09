@@ -1,24 +1,41 @@
 <div class="sidebar-container">
     <div class="config-section">
-        <h5>🤖 Stockfish Level</h5>
+        <h5>🤖 Stockfish Difficulty (ELO)</h5>
         <div class="level-selector">
-            @for (lvl of [1, 2, 3, 4, 5]; track lvl) {
-            <button [class.active]="currentLevel === lvl" (click)="currentLevel = lvl">
-                {{ lvl }}
+            @for (bot of botLevels; track bot.elo) {
+            <button [class.active]="selectedElo === bot.elo" (click)="selectDifficulty(bot.elo)">
+                <span class="elo-num">{{ bot.elo }}</span>
+                <span class="elo-title">{{ bot.title }}</span>
             </button>
             }
         </div>
     </div>
 
-    <app-move-history></app-move-history>
+    <div class="history-section">
+        <h5>📋 Live Move History</h5>
+        <div class="moves-table">
+            <div class="table-header">
+                <span class="col-num">#</span>
+                <span class="col-move">White</span>
+                <span class="col-move">Black</span>
+            </div>
+            <div class="moves-body">
+                @for (turn of formattedMoves; track turn.num) {
+                <div class="move-row">
+                    <span class="col-num">{{ turn.num }}.</span>
+                    <span class="col-move white-move">{{ turn.w }}</span>
+                    <span class="col-move black-move" [class.empty]="!turn.b">{{ turn.b || '-' }}</span>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
 
     <div class="actions-section">
-        <button class="action-btn danger-btn">
-            🏳️ Resign (Taslim bo'lish)
-        </button>
+        <button class="action-btn danger-btn">🏳️ Resign (Taslim bo'lish)</button>
         <div class="sub-actions">
             <button class="action-btn secondary-btn">🤝 Draw</button>
-            <button class="action-btn secondary-btn">🔄 Restart</button>
+            <button class="action-btn secondary-btn" (click)="onRestartClick()">🔄 Restart</button>
         </div>
     </div>
 </div>
